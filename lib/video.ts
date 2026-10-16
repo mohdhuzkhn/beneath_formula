@@ -1,0 +1,1 @@
+export function youtubeUrl(id:string,start=0,embed=false){if(!/^[A-Za-z0-9_-]{11}$/.test(id)||!Number.isInteger(start)||start<0)throw new Error('Invalid YouTube ID or start time');return embed?`https://www.youtube-nocookie.com/embed/${id}?start=${start}&rel=0`:`https://www.youtube.com/watch?v=${id}&t=${start}s`}
