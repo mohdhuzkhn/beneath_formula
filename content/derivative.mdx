@@ -1,0 +1,79 @@
+---
+{
+  "authorId": "muhammad-huzaifa",
+  "status": "published",
+  "demo": true,
+  "publishedAt": "2026-10-17",
+  "subjects": [
+    "calculus/differentiation"
+  ],
+  "levels": [
+    "XII",
+    "undergraduate"
+  ],
+  "depths": [
+    "intuition",
+    "foundation",
+    "rigorous"
+  ],
+  "tags": [
+    "rate-of-change"
+  ],
+  "whyItMatters": "Understanding change connects slopes, motion and mathematical models.",
+  "id": "derivative",
+  "slug": "what-is-a-derivative",
+  "kind": "concept",
+  "title": "What is a derivative, really?",
+  "summary": "A slope between two points becomes a question about one point. Follow the limit that makes it possible.",
+  "prerequisites": [
+    "limits"
+  ],
+  "labIds": [
+    "secant-lab"
+  ],
+  "videoIds": [
+    "derivative-lecture"
+  ],
+  "connections": [
+    {
+      "type": "related_to",
+      "target": "square-proof"
+    }
+  ],
+  "aliases": [
+    "/concepts/derivative-intuition"
+  ]
+}
+---
+
+## From average to instantaneous change
+
+An average rate compares two values. For a function $f$, the average rate from $x$ to $x+h$ is the slope of a secant line.
+
+$$
+\frac{f(x+h)-f(x)}{h},\qquad h\ne0.
+$$
+
+<Definition>
+The derivative $f'(x)$ is the two-sided limit of this quotient as $h$ approaches zero, when that finite limit exists.
+</Definition>
+
+## A square function
+
+For $f(x)=x^2$, expanding the numerator gives $2xh+h^2$. For nonzero $h$, the quotient is $2x+h$, whose limit is $2x$.
+
+<Equation id="derivative-equation">
+$$f'(x)=\lim_{h\to0}\frac{(x+h)^2-x^2}{h}=2x.$$
+</Equation>
+
+## Where intuition needs care
+
+<Misconception>
+A curve does not always have a derivative. At zero, $|x|$ has left-hand slope $-1$ and right-hand slope $1$. Since these differ, there is no two-sided derivative.
+</Misconception>
+
+## Try the experiment
+
+Open the [secant-to-tangent lab](/lab/secant-to-tangent), compare both signs of $h$, and then read the [algebraic proof](/derivations/derivative-of-a-square).
+
+The [definition above](#derivative-equation) is a limit, not an instruction to divide by zero.

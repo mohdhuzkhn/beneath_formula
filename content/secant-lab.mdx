@@ -1,0 +1,51 @@
+---
+{
+  "authorId": "muhammad-huzaifa",
+  "status": "published",
+  "demo": true,
+  "publishedAt": "2026-10-17",
+  "subjects": [
+    "calculus/differentiation"
+  ],
+  "levels": [
+    "XII",
+    "undergraduate"
+  ],
+  "depths": [
+    "foundation"
+  ],
+  "tags": [
+    "visualization"
+  ],
+  "whyItMatters": "Understanding change connects slopes, motion and mathematical models.",
+  "id": "secant-lab",
+  "slug": "secant-to-tangent",
+  "kind": "lab",
+  "title": "A secant becomes a tangent",
+  "summary": "Move two points closer. Compare a square, a constant, and a cusp using the same experiment.",
+  "componentId": "secant-tangent",
+  "learningGoals": [
+    "Compare secant and derivative slopes",
+    "Distinguish one-sided slopes at a cusp"
+  ],
+  "accessibilitySummary": "Labeled numeric controls, a textual result and a data table provide the same values as the SVG plot.",
+  "parameterRanges": {
+    "x": [
+      -2,
+      2
+    ],
+    "h": [
+      -2,
+      2
+    ]
+  }
+}
+---
+
+## What to look for
+
+Keep $x$ fixed and reduce the magnitude of $h$. The secant uses two points; the tangent uses the derivative at the first point, if that derivative exists.
+
+## Numerical limits
+
+The display uses vetted functions and stable algebraic slope formulas. A changing plot illustrates a limit but is not a proof. At the cusp of $|x|$, compare a positive and a negative step.

@@ -1,0 +1,50 @@
+---
+{
+  "authorId": "muhammad-huzaifa",
+  "status": "published",
+  "demo": true,
+  "publishedAt": "2026-10-17",
+  "subjects": [
+    "calculus/differentiation"
+  ],
+  "levels": [
+    "XII",
+    "undergraduate"
+  ],
+  "depths": [
+    "rigorous"
+  ],
+  "tags": [
+    "proof"
+  ],
+  "whyItMatters": "Understanding change connects slopes, motion and mathematical models.",
+  "id": "square-proof",
+  "slug": "derivative-of-a-square",
+  "kind": "derivation",
+  "title": "Why the derivative of x² is 2x",
+  "summary": "An algebraic derivation from the definition, with the nonzero-step assumption made explicit.",
+  "prerequisites": [
+    "derivative"
+  ]
+}
+---
+
+## Claim
+
+<Theorem>
+For every real number $x$, the function $f(x)=x^2$ has derivative $f'(x)=2x$.
+</Theorem>
+
+## Derivation
+
+<Proof>
+For $h\ne0$,
+
+$$\frac{(x+h)^2-x^2}{h}=\frac{2xh+h^2}{h}=2x+h.$$
+
+Taking the limit as $h\to0$ yields $2x$. The cancellation is valid before taking the limit. This proves the claim for each real $x$.
+</Proof>
+
+## Check a particular point
+
+At $x=1$, the secant slopes are $2+h$. Positive steps approach 2 from above and negative steps approach 2 from below.

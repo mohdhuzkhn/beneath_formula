@@ -16,7 +16,12 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build"
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build",
+    "content:validate": "tsx scripts/validate.ts",
+    "graph:validate": "tsx scripts/validate.ts",
+    "links:check": "tsx scripts/validate.ts",
+    "content:new": "tsx scripts/content-new.ts",
+    "prebuild": "npm run content:validate"
   },
   "dependencies": {
     "github-slugger": "2.0.0",

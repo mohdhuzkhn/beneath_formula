@@ -1,0 +1,68 @@
+---
+{
+  "authorId": "muhammad-huzaifa",
+  "status": "published",
+  "demo": true,
+  "publishedAt": "2026-10-17",
+  "subjects": [
+    "calculus/differentiation"
+  ],
+  "levels": [
+    "XII",
+    "undergraduate"
+  ],
+  "depths": [
+    "foundation"
+  ],
+  "tags": [
+    "proof",
+    "visualization"
+  ],
+  "whyItMatters": "Understanding change connects slopes, motion and mathematical models.",
+  "id": "square-investigation",
+  "slug": "secant-error-study",
+  "kind": "investigation",
+  "title": "How quickly does a secant slope converge?",
+  "summary": "A reproducible demonstration investigating the secant error for a square function.",
+  "inquiryKind": "Reproducible Investigation",
+  "researchStatus": "demonstration",
+  "abstract": "For a square function, the secant slope error equals the step h exactly in real arithmetic.",
+  "version": "0.1",
+  "methods": "Expand the difference quotient and compare it with the analytic derivative.",
+  "limitations": "Only the square function is analyzed. Floating-point arithmetic is not real arithmetic. This is not original research or peer-reviewed work.",
+  "peerReviewed": false,
+  "disclosures": "AI-assisted engineering demonstration; author editorial review pending.",
+  "prerequisites": [
+    "square-proof"
+  ],
+  "revisions": [
+    {
+      "date": "2026-10-17",
+      "description": "Initial engineering demonstration; not a research publication."
+    }
+  ]
+}
+---
+
+## Question
+
+For $f(x)=x^2$, how does the secant slope error depend on $h$?
+
+## Exact result
+
+The secant slope is $2x+h$, so subtracting the derivative $2x$ leaves $h$. Thus the absolute error is $|h|$ for every nonzero real step.
+
+## Reproduce
+
+This Python fragment computes the stable algebraic quotient at $x=1$.
+
+~~~python
+x = 1.0
+for h in [1.0, 0.1, 0.01, -0.01]:
+    secant = 2 * x + h
+    print(h, secant, abs(secant - 2 * x))
+~~~
+
+## Interpretation
+
+Halving the step halves the exact absolute error. This calculation concerns one function; it does not establish a universal convergence rate.
