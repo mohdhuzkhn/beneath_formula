@@ -21,7 +21,8 @@
     "graph:validate": "tsx scripts/validate.ts",
     "links:check": "tsx scripts/validate.ts",
     "content:new": "tsx scripts/content-new.ts",
-    "prebuild": "npm run content:validate"
+    "prebuild": "npm run content:validate",
+    "search:build": "tsx scripts/search-build.ts"
   },
   "dependencies": {
     "github-slugger": "2.0.0",
