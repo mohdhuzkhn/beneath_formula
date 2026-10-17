@@ -1,4 +1,59 @@
-'use client';
-import {useState} from 'react';
-import {youtubeUrl} from '../lib/video';
-export function Video({id,title,approved=false}:{id?:string;title:string;approved?:boolean}){const [loaded,setLoaded]=useState(false);if(!id||!approved)return <div className="video-placeholder"><h2>Lecture awaiting an approved video</h2><p>No video has been supplied or verified. Explore the written explanation and lab in the meantime.</p></div>;return <section aria-label="Video lesson">{loaded?<><iframe title={title} src={youtubeUrl(id,0,true)} loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen/><button className="quiet" onClick={()=>setLoaded(false)}>Unload video</button></>:<div className="video-placeholder"><h2>{title}</h2><p>Loading this player connects your browser to YouTube. YouTube may process your IP address and browser information.</p><button onClick={()=>setLoaded(true)}>Load YouTube video</button></div>}<p>Player unavailable? <a href={youtubeUrl(id)} rel="noreferrer" target="_blank">Open on YouTube</a>.</p></section>}
+"use client";
+import { useState } from "react";
+import { youtubeUrl } from "../lib/video";
+export function Video({
+  id,
+  title,
+  approved = false,
+}: {
+  id?: string;
+  title: string;
+  approved?: boolean;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  if (!id || !approved)
+    return (
+      <div className="video-placeholder">
+        <h2>Lecture awaiting an approved video</h2>
+        <p>
+          No video has been supplied or verified. Explore the written
+          explanation and lab in the meantime.
+        </p>
+      </div>
+    );
+  return (
+    <section aria-label="Video lesson">
+      {loaded ? (
+        <>
+          <iframe
+            title={title}
+            src={youtubeUrl(id, 0, true)}
+            loading="lazy"
+            allow="encrypted-media; picture-in-picture; fullscreen"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+          <button className="quiet" onClick={() => setLoaded(false)}>
+            Unload video
+          </button>
+        </>
+      ) : (
+        <div className="video-placeholder">
+          <h2>{title}</h2>
+          <p>
+            Loading this player connects your browser to YouTube. YouTube may
+            process your IP address and browser information.
+          </p>
+          <button onClick={() => setLoaded(true)}>Load YouTube video</button>
+        </div>
+      )}
+      <p>
+        Player unavailable?{" "}
+        <a href={youtubeUrl(id)} rel="noreferrer" target="_blank">
+          Open on YouTube
+        </a>
+        .
+      </p>
+    </section>
+  );
+}

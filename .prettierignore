@@ -5,3 +5,5 @@ next-env.d.ts
 artifacts
 test-results
 playwright-report
+content/**/*.mdx
+docs/reference/

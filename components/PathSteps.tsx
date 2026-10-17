@@ -1,4 +1,59 @@
-import Link from 'next/link';
-import type {Article} from '../lib/schema';
-import {published,route} from '../lib/content';
-export function PathSteps({item}:{item:Article}){if(item.kind!=='learning_path')return null;const all=published();return <section aria-label="Learning sequence"><h2>Your route through the ideas</h2><p>{item.audience}</p><h3>Before you begin</h3><ul>{item.entryRequirements.map(t=><li key={t}>{t}</li>)}</ul><h3>Learning outcomes</h3><ul>{item.learningOutcomes.map(t=><li key={t}>{t}</li>)}</ul><ol className="reading-list">{item.orderedContentIds.map(id=>{const step=all.find(i=>i.id===id)!;return <li key={id}><div><h3><Link href={route(step)}>{step.title}</Link></h3><p>{step.summary}</p></div></li>})}</ol>{item.optionalBranches.length>0&&<><h3>Go further</h3><ul>{item.optionalBranches.map(id=>{const step=all.find(i=>i.id===id)!;return <li key={id}><Link href={route(step)}>{step.title}</Link></li>})}</ul></>}</section>}
+import Link from "./Link";
+import type { Article } from "../lib/schema";
+import { published, route } from "../lib/content";
+export function PathSteps({ item }: { item: Article }) {
+  if (item.kind !== "learning_path") return null;
+  const all = published();
+  return (
+    <section aria-label="Learning sequence">
+      <h2>Your route through the ideas</h2>
+      <p>{item.audience}</p>
+      <h3>Before you begin</h3>
+      <ul>
+        {item.entryRequirements.map((t) => (
+          <li key={t}>{t}</li>
+        ))}
+      </ul>
+      <h3>Learning outcomes</h3>
+      <ul>
+        {item.learningOutcomes.map((t) => (
+          <li key={t}>{t}</li>
+        ))}
+      </ul>
+      <ol className="reading-list">
+        {item.orderedContentIds.map((id) => {
+          const step = all.find((i) => i.id === id)!;
+          return (
+            <li key={id}>
+              <div>
+                <h3>
+                  <Link prefetch={false} href={route(step)}>
+                    {step.title}
+                  </Link>
+                </h3>
+                <p>{step.summary}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+      {item.optionalBranches.length > 0 && (
+        <>
+          <h3>Go further</h3>
+          <ul>
+            {item.optionalBranches.map((id) => {
+              const step = all.find((i) => i.id === id)!;
+              return (
+                <li key={id}>
+                  <Link prefetch={false} href={route(step)}>
+                    {step.title}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
+    </section>
+  );
+}

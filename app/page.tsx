@@ -1,4 +1,112 @@
-import Link from 'next/link';
-import {published} from '../lib/content';
-import {Card} from '../components/Card';
-export default function Home(){const items=published();return <><section className="hero"><div><p className="eyebrow">MATHEMATICS, FROM FIRST PRINCIPLES</p><h1>There is a story<br/>beneath every<br/><em>formula.</em></h1><p className="lede">Go beyond remembering the answer. Explore the ideas, proofs and connections that make mathematics make sense.</p><div className="actions"><Link className="button" href="/explore">Explore the ideas <span aria-hidden="true">↗</span></Link><Link href="/paths/second-year-calculus">Start with calculus →</Link></div></div><figure className="plot-art"><p className="eyebrow">THE QUESTION BEHIND THE EQUATION · 01</p><svg viewBox="0 0 400 320" role="img" aria-labelledby="curve-title curve-description"><title id="curve-title">From a secant to a tangent</title><desc id="curve-description">A parabola with two marked points, a secant line and a dashed tangent. Moving the second point closer illustrates a derivative.</desc><defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="var(--line)" strokeWidth=".6"/></pattern></defs><rect width="400" height="280" fill="url(#grid)"/><path d="M20 240H380M110 265V20" fill="none" stroke="var(--muted)"/><path d="M28 118Q110 350 295 28" fill="none" stroke="var(--ink)" strokeWidth="3"/><path d="M58 282L330 61" stroke="var(--accent)" strokeWidth="2"/><path d="M36 262L344 150" stroke="var(--muted)" strokeDasharray="6 5" strokeWidth="2"/><circle cx="154" cy="204" r="5" fill="var(--ink)"/><circle cx="249" cy="127" r="5" fill="var(--accent)"/><text x="158" y="228" fill="var(--ink)" fontSize="15">x</text><text x="259" y="145" fill="var(--accent)" fontSize="15">x + h</text><text x="280" y="40" fill="var(--ink)" fontSize="19" fontFamily="Georgia">f(x) = x²</text><text x="35" y="311" fill="var(--ink)" fontSize="20" fontFamily="Georgia">What happens as h approaches zero?</text></svg><figcaption>Two points. One limiting idea. <Link href="/lab/secant-to-tangent">Move the points yourself ↗</Link></figcaption></figure></section><section className="section"><div className="section-heading"><div><p className="eyebrow">BEGIN WITH A QUESTION</p><h2>A first look at calculus</h2></div><Link href="/explore">All ideas ↗</Link></div><div className="grid">{items.filter(i=>['limits','derivative','square-proof'].includes(i.id)).map(i=><Card item={i} key={i.id}/>)}</div></section><section className="feature-band"><div><p className="eyebrow">A PATH, NOT A PILE OF NOTES</p><h2>Build one idea<br/>on another.</h2><p>Follow prerequisites, work through a proof, then put the idea to the test.</p><Link href="/paths">Find your learning path →</Link></div><div><p className="eyebrow">FROM MATHEMATICS TO MODELS</p><h2>Where calculus<br/>meets computation.</h2><p>Trace the foundations of change toward gradients and optimization, with clear boundaries around what is ready to explore.</p><Link href="/math-to-ai">Explore the bridge →</Link></div></section><section className="section"><div className="section-heading"><h2>Questions worth investigating</h2><Link href="/inquiry">Inquiry & writing ↗</Link></div><p className="lede">Proofs, experiments and reading notes, with methods and limitations in view. Start with a labeled reproducible demonstration.</p><Link href="/inquiry/secant-error-study">How quickly does a secant slope converge? →</Link></section></>}
+import { HeroPlot } from "../components/HeroPlot";
+import Link from "../components/Link";
+import { published } from "../lib/content";
+import { Card } from "../components/Card";
+export default function Home() {
+  const items = published();
+  return (
+    <>
+      <section className="hero">
+        <div>
+          <p className="eyebrow">MATHEMATICS, FROM FIRST PRINCIPLES</p>
+          <h1>
+            There is a story
+            <br />
+            beneath every
+            <br />
+            <em>formula.</em>
+          </h1>
+          <p className="lede">
+            Go beyond remembering the answer. Explore the ideas, proofs and
+            connections that make mathematics make sense.
+          </p>
+          <div className="actions">
+            <Link prefetch={false} className="button" href="/explore">
+              Explore the ideas <span aria-hidden="true">↗</span>
+            </Link>
+            <Link prefetch={false} href="/paths/second-year-calculus">
+              Start with calculus →
+            </Link>
+          </div>
+        </div>
+        <figure className="plot-art">
+          <p className="eyebrow">THE QUESTION BEHIND THE EQUATION · 01</p>
+          <HeroPlot />
+          <figcaption>
+            Two points. One limiting idea.{" "}
+            <Link prefetch={false} href="/lab/secant-to-tangent">
+              Move the points yourself ↗
+            </Link>
+          </figcaption>
+        </figure>
+      </section>
+      <section className="section">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">BEGIN WITH A QUESTION</p>
+            <h2>A first look at calculus</h2>
+          </div>
+          <Link prefetch={false} href="/explore">
+            All ideas ↗
+          </Link>
+        </div>
+        <div className="grid">
+          {items
+            .filter((i) =>
+              ["limits", "derivative", "square-proof"].includes(i.id),
+            )
+            .map((i) => (
+              <Card item={i} key={i.id} />
+            ))}
+        </div>
+      </section>
+      <section className="feature-band">
+        <div>
+          <p className="eyebrow">A PATH, NOT A PILE OF NOTES</p>
+          <h2>
+            Build one idea
+            <br />
+            on another.
+          </h2>
+          <p>
+            Follow prerequisites, work through a proof, then put the idea to the
+            test.
+          </p>
+          <Link prefetch={false} href="/paths">
+            Find your learning path →
+          </Link>
+        </div>
+        <div>
+          <p className="eyebrow">FROM MATHEMATICS TO MODELS</p>
+          <h2>
+            Where calculus
+            <br />
+            meets computation.
+          </h2>
+          <p>
+            Trace the foundations of change toward gradients and optimization,
+            with clear boundaries around what is ready to explore.
+          </p>
+          <Link prefetch={false} href="/math-to-ai">
+            Explore the bridge →
+          </Link>
+        </div>
+      </section>
+      <section className="section">
+        <div className="section-heading">
+          <h2>Questions worth investigating</h2>
+          <Link prefetch={false} href="/inquiry">
+            Inquiry & writing ↗
+          </Link>
+        </div>
+        <p className="lede">
+          Proofs, experiments and reading notes, with methods and limitations in
+          view. Start with a labeled reproducible demonstration.
+        </p>
+        <Link prefetch={false} href="/inquiry/secant-error-study">
+          How quickly does a secant slope converge? →
+        </Link>
+      </section>
+    </>
+  );
+}

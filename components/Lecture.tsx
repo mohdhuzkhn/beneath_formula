@@ -1,4 +1,45 @@
-import {Video} from './Video';
-import type {Article} from '../lib/schema';
-import {youtubeUrl} from '../lib/video';
-export function Lecture({item}:{item:Article}){if(item.kind!=='lecture')return null;return <><Video id={item.youtubeVideoId} approved={item.videoApproved} title={item.title}/>{item.youtubeVideoId&&item.timestamps.length>0&&<ol>{item.timestamps.map(t=><li key={t.seconds}><a href={youtubeUrl(item.youtubeVideoId!,t.seconds)}>{Math.floor(t.seconds/60)}:{String(t.seconds%60).padStart(2,'0')} — {t.label}</a></li>)}</ol>}{item.captionsUrl&&<p><a href={item.captionsUrl}>Authorized captions</a></p>}{item.transcript&&<details><summary>Read transcript</summary><p>{item.transcript}</p></details>}{item.playlistId&&<p><a href={`https://www.youtube.com/playlist?list=${item.playlistId}`}>View playlist</a></p>}</>}
+import { Video } from "./Video";
+import type { Article } from "../lib/schema";
+import { youtubeUrl } from "../lib/video";
+export function Lecture({ item }: { item: Article }) {
+  if (item.kind !== "lecture") return null;
+  return (
+    <>
+      <Video
+        id={item.youtubeVideoId}
+        approved={item.videoApproved}
+        title={item.title}
+      />
+      {item.youtubeVideoId && item.timestamps.length > 0 && (
+        <ol>
+          {item.timestamps.map((t) => (
+            <li key={t.seconds}>
+              <a href={youtubeUrl(item.youtubeVideoId!, t.seconds)}>
+                {Math.floor(t.seconds / 60)}:
+                {String(t.seconds % 60).padStart(2, "0")} — {t.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      )}
+      {item.captionsUrl && (
+        <p>
+          <a href={item.captionsUrl}>Authorized captions</a>
+        </p>
+      )}
+      {item.transcript && (
+        <details>
+          <summary>Read transcript</summary>
+          <p>{item.transcript}</p>
+        </details>
+      )}
+      {item.playlistId && (
+        <p>
+          <a href={`https://www.youtube.com/playlist?list=${item.playlistId}`}>
+            View playlist
+          </a>
+        </p>
+      )}
+    </>
+  );
+}

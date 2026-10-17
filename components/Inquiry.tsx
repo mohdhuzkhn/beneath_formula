@@ -1,2 +1,63 @@
-import type {Article} from '../lib/schema';
-export function Inquiry({item}:{item:Article}){if(!('inquiryKind' in item))return null;return <section aria-label="Inquiry provenance"><h2>About this inquiry</h2><dl><dt>Classification</dt><dd>{item.inquiryKind}</dd><dt>Status</dt><dd>{item.researchStatus.replaceAll('_',' ')} · Version {item.version}</dd><dt>Review status</dt><dd>{item.peerReviewed?'Peer review evidence supplied':'Not peer reviewed'}</dd><dt>Abstract</dt><dd>{item.abstract}</dd><dt>Methods</dt><dd>{item.methods}</dd><dt>Limitations</dt><dd>{item.limitations}</dd><dt>Disclosures</dt><dd>{item.disclosures}</dd></dl>{item.evidenceUrl&&<p><a href={item.evidenceUrl}>Review/publication evidence</a></p>}{item.doi&&<p><a href={`https://doi.org/${item.doi}`}>DOI: {item.doi}</a></p>}{item.repositoryUrl&&<p><a href={item.repositoryUrl}>Reproducible source repository</a></p>}{item.dataUrl&&<p><a href={item.dataUrl}>Associated data</a></p>}<h3>Revisions & corrections</h3>{item.revisions.length?<ul>{item.revisions.map((r,i)=><li key={i}><time>{r.date}</time> — {r.description}</li>)}</ul>:<p>No corrections recorded.</p>}</section>}
+import type { Article } from "../lib/schema";
+export function Inquiry({ item }: { item: Article }) {
+  if (!("inquiryKind" in item)) return null;
+  return (
+    <section aria-label="Inquiry provenance">
+      <h2>About this inquiry</h2>
+      <dl>
+        <dt>Classification</dt>
+        <dd>{item.inquiryKind}</dd>
+        <dt>Status</dt>
+        <dd>
+          {item.researchStatus.replaceAll("_", " ")} · Version {item.version}
+        </dd>
+        <dt>Review status</dt>
+        <dd>
+          {item.peerReviewed
+            ? "Peer review evidence supplied"
+            : "Not peer reviewed"}
+        </dd>
+        <dt>Abstract</dt>
+        <dd>{item.abstract}</dd>
+        <dt>Methods</dt>
+        <dd>{item.methods}</dd>
+        <dt>Limitations</dt>
+        <dd>{item.limitations}</dd>
+        <dt>Disclosures</dt>
+        <dd>{item.disclosures}</dd>
+      </dl>
+      {item.evidenceUrl && (
+        <p>
+          <a href={item.evidenceUrl}>Review/publication evidence</a>
+        </p>
+      )}
+      {item.doi && (
+        <p>
+          <a href={`https://doi.org/${item.doi}`}>DOI: {item.doi}</a>
+        </p>
+      )}
+      {item.repositoryUrl && (
+        <p>
+          <a href={item.repositoryUrl}>Reproducible source repository</a>
+        </p>
+      )}
+      {item.dataUrl && (
+        <p>
+          <a href={item.dataUrl}>Associated data</a>
+        </p>
+      )}
+      <h3>Revisions & corrections</h3>
+      {item.revisions.length ? (
+        <ul>
+          {item.revisions.map((r, i) => (
+            <li key={i}>
+              <time>{r.date}</time> — {r.description}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No corrections recorded.</p>
+      )}
+    </section>
+  );
+}

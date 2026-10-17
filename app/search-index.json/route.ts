@@ -1,4 +1,6 @@
-import {published} from '../../lib/content';
-import {buildIndex} from '../../lib/search';
-export const dynamic='force-static';
-export function GET(){return Response.json(buildIndex(published()))}
+import { published } from "../../lib/content";
+import { buildIndex } from "../../lib/search";
+export const dynamic = "force-static";
+export function GET() {
+  return Response.json(buildIndex(published()));
+}

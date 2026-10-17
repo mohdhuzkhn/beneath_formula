@@ -1,6 +1,255 @@
-'use client';
-import {useState} from 'react';
-import {value,derivative,secant,presets,type Preset} from '../lib/math';
-export function Parameter({label,value:current,onChange,min,max,step}:{label:string;value:number;onChange:(n:number)=>void;min:number;max:number;step:number}){return <label>{label}<input type="range" min={min} max={max} step={step} value={current} onChange={e=>onChange(Number(e.target.value))}/><output>{current.toFixed(3)}</output></label>}
-export function CoordinatePlane({preset,x,h,zoom,slope,tangent}:{preset:Preset;x:number;h:number;zoom:number;slope:number;tangent:number|null}){const px=(v:number)=>300+v*50*zoom,py=(v:number)=>300-v*30*zoom;const points=Array.from({length:241},(_,i)=>{const t=-6+i/20;return `${px(t)},${py(value(preset,t))}`}).join(' ');return <svg className="lab-plot" viewBox="0 0 600 380" role="img" aria-labelledby="lab-title lab-desc"><title id="lab-title">Secant and tangent comparison</title><desc id="lab-desc">Solid curve: selected function. Dashed line: secant. Dotted line: analytic tangent when it exists. Exact values follow in the table.</desc><defs><clipPath id="plot-clip"><rect x="10" y="10" width="580" height="350"/></clipPath></defs><g clipPath="url(#plot-clip)">{Array.from({length:11},(_,i)=>i-5).map(i=><g key={i}><line x1={px(i)} y1="10" x2={px(i)} y2="360" stroke="var(--line)"/><line x1="10" y1={py(i)} x2="590" y2={py(i)} stroke="var(--line)"/><text x={px(i)+3} y="317" fill="var(--muted)" fontSize="11">{i}</text></g>)}<line x1="10" y1={py(0)} x2="590" y2={py(0)} stroke="var(--ink)"/><line x1={px(0)} y1="10" x2={px(0)} y2="360" stroke="var(--ink)"/><polyline points={points} fill="none" stroke="var(--ink)" strokeWidth="3"/><line x1={px(-6)} y1={py(value(preset,x)+slope*(-6-x))} x2={px(6)} y2={py(value(preset,x)+slope*(6-x))} stroke="var(--accent)" strokeWidth="2.5" strokeDasharray="8 5"/>{tangent!==null&&<line x1={px(-6)} y1={py(value(preset,x)+tangent*(-6-x))} x2={px(6)} y2={py(value(preset,x)+tangent*(6-x))} stroke="var(--muted)" strokeWidth="2.5" strokeDasharray="2 5"/>}{[x,x+h].map((v,i)=><circle key={i} cx={px(v)} cy={py(value(preset,v))} r="5" fill={i?'var(--accent)':'var(--ink)'}/>)}</g><text x="575" y="340" fill="var(--ink)">x</text><text x="310" y="20" fill="var(--ink)">f(x)</text></svg>}
-export default function Lab(){const [preset,setPreset]=useState<Preset>('square');const [x,setX]=useState(1);const [magnitude,setMagnitude]=useState(.5);const [sign,setSign]=useState(1);const [zoom,setZoom]=useState(1);const h=magnitude*sign;const slope=secant(preset,x,h),tangent=derivative(preset,x);return <section className="lab-shell" aria-label="Interactive secant experiment"><div className="lab-controls"><label>Function<select value={preset} onChange={e=>setPreset(e.target.value as Preset)}>{Object.entries(presets).map(([id,label])=><option key={id} value={id}>{label}</option>)}</select></label><Parameter label="Base point x" value={x} onChange={setX} min={-2} max={2} step={.1}/><Parameter label="Step magnitude |h|" value={magnitude} onChange={setMagnitude} min={.001} max={2} step={.001}/><label>Approach direction<select value={sign} onChange={e=>setSign(Number(e.target.value))}><option value={1}>From the right (+h)</option><option value={-1}>From the left (−h)</option></select></label><label>Zoom<select value={zoom} onChange={e=>setZoom(Number(e.target.value))}><option value={.6}>Wide</option><option value={1}>Standard</option><option value={1.5}>Close</option></select></label></div><CoordinatePlane preset={preset} x={x} h={h} zoom={zoom} slope={slope} tangent={tangent}/><p>Solid: function · dashed: secant · dotted: tangent (if defined).</p><p role="status" aria-live="polite">Secant slope: <strong>{slope.toFixed(4)}</strong>. {tangent===null?'No derivative at this cusp: left slope −1 and right slope +1 differ.':`Analytic derivative: ${tangent.toFixed(4)}.`}</p><div className="table-wrap"><table><caption>Numerical values corresponding to the plot</caption><thead><tr><th scope="col">x</th><th scope="col">h</th><th scope="col">f(x)</th><th scope="col">f(x+h)</th><th scope="col">Secant slope</th></tr></thead><tbody><tr>{[x,h,value(preset,x),value(preset,x+h),slope].map((v,i)=><td key={i}>{v.toFixed(4)}</td>)}</tr></tbody></table></div><p>Steps exclude zero. Minimum magnitude is 0.001. A numerical illustration does not prove a limit.</p><div className="actions"><button onClick={()=>{setPreset('square');setX(1);setMagnitude(.5);setSign(1);setZoom(1)}}>Reset experiment</button><button className="quiet" onClick={()=>setMagnitude(Math.max(.001,magnitude/2))}>Halve the step</button></div></section>}
+"use client";
+import { useState } from "react";
+import { value, derivative, secant, presets, type Preset } from "../lib/math";
+export function Parameter({
+  label,
+  value: current,
+  onChange,
+  min,
+  max,
+  step,
+}: {
+  label: string;
+  value: number;
+  onChange: (n: number) => void;
+  min: number;
+  max: number;
+  step: number;
+}) {
+  return (
+    <label>
+      {label}
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={current}
+        onChange={(e) => onChange(Number(e.target.value))}
+      />
+      <span>{current.toFixed(3)}</span>
+    </label>
+  );
+}
+export function CoordinatePlane({
+  preset,
+  x,
+  h,
+  zoom,
+  slope,
+  tangent,
+}: {
+  preset: Preset;
+  x: number;
+  h: number;
+  zoom: number;
+  slope: number;
+  tangent: number | null;
+}) {
+  const px = (v: number) => 300 + v * 50 * zoom,
+    py = (v: number) => 300 - v * 30 * zoom;
+  const points = Array.from({ length: 241 }, (_, i) => {
+    const t = -6 + i / 20;
+    return `${px(t)},${py(value(preset, t))}`;
+  }).join(" ");
+  return (
+    <svg
+      className="lab-plot"
+      viewBox="0 0 600 380"
+      role="img"
+      aria-labelledby="lab-title lab-desc"
+    >
+      <title id="lab-title">Secant and tangent comparison</title>
+      <desc id="lab-desc">
+        Solid curve: selected function. Dashed line: secant. Dotted line:
+        analytic tangent when it exists. Exact values follow in the table.
+      </desc>
+      <defs>
+        <clipPath id="plot-clip">
+          <rect x="10" y="10" width="580" height="350" />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#plot-clip)">
+        {Array.from({ length: 11 }, (_, i) => i - 5).map((i) => (
+          <g key={i}>
+            <line x1={px(i)} y1="10" x2={px(i)} y2="360" stroke="var(--line)" />
+            <line x1="10" y1={py(i)} x2="590" y2={py(i)} stroke="var(--line)" />
+            <text x={px(i) + 3} y="317" fill="var(--muted)" fontSize="11">
+              {i}
+            </text>
+          </g>
+        ))}
+        <line x1="10" y1={py(0)} x2="590" y2={py(0)} stroke="var(--ink)" />
+        <line x1={px(0)} y1="10" x2={px(0)} y2="360" stroke="var(--ink)" />
+        <polyline
+          points={points}
+          fill="none"
+          stroke="var(--ink)"
+          strokeWidth="3"
+        />
+        <line
+          x1={px(-6)}
+          y1={py(value(preset, x) + slope * (-6 - x))}
+          x2={px(6)}
+          y2={py(value(preset, x) + slope * (6 - x))}
+          stroke="var(--accent)"
+          strokeWidth="2.5"
+          strokeDasharray="8 5"
+        />
+        {tangent !== null && (
+          <line
+            x1={px(-6)}
+            y1={py(value(preset, x) + tangent * (-6 - x))}
+            x2={px(6)}
+            y2={py(value(preset, x) + tangent * (6 - x))}
+            stroke="var(--muted)"
+            strokeWidth="2.5"
+            strokeDasharray="2 5"
+          />
+        )}
+        {[x, x + h].map((v, i) => (
+          <circle
+            key={i}
+            cx={px(v)}
+            cy={py(value(preset, v))}
+            r="5"
+            fill={i ? "var(--accent)" : "var(--ink)"}
+          />
+        ))}
+      </g>
+      <text x="575" y="340" fill="var(--ink)">
+        x
+      </text>
+      <text x="310" y="20" fill="var(--ink)">
+        f(x)
+      </text>
+    </svg>
+  );
+}
+export default function Lab() {
+  const [preset, setPreset] = useState<Preset>("square");
+  const [x, setX] = useState(1);
+  const [magnitude, setMagnitude] = useState(0.5);
+  const [sign, setSign] = useState(1);
+  const [zoom, setZoom] = useState(1);
+  const h = magnitude * sign;
+  const slope = secant(preset, x, h),
+    tangent = derivative(preset, x);
+  return (
+    <section className="lab-shell" aria-label="Interactive secant experiment">
+      <div className="lab-controls">
+        <label>
+          Function
+          <select
+            value={preset}
+            onChange={(e) => setPreset(e.target.value as Preset)}
+          >
+            {Object.entries(presets).map(([id, label]) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <Parameter
+          label="Base point x"
+          value={x}
+          onChange={setX}
+          min={-2}
+          max={2}
+          step={0.1}
+        />
+        <Parameter
+          label="Step magnitude |h|"
+          value={magnitude}
+          onChange={setMagnitude}
+          min={0.001}
+          max={2}
+          step={0.001}
+        />
+        <label>
+          Approach direction
+          <select
+            value={sign}
+            onChange={(e) => setSign(Number(e.target.value))}
+          >
+            <option value={1}>From the right (+h)</option>
+            <option value={-1}>From the left (−h)</option>
+          </select>
+        </label>
+        <label>
+          Zoom
+          <select
+            value={zoom}
+            onChange={(e) => setZoom(Number(e.target.value))}
+          >
+            <option value={0.6}>Wide</option>
+            <option value={1}>Standard</option>
+            <option value={1.5}>Close</option>
+          </select>
+        </label>
+      </div>
+      <CoordinatePlane
+        preset={preset}
+        x={x}
+        h={h}
+        zoom={zoom}
+        slope={slope}
+        tangent={tangent}
+      />
+      <p>Solid: function · dashed: secant · dotted: tangent (if defined).</p>
+      <p role="status" aria-live="polite">
+        Secant slope: <strong>{slope.toFixed(4)}</strong>.{" "}
+        {tangent === null
+          ? "No derivative at this cusp: left slope −1 and right slope +1 differ."
+          : `Analytic derivative: ${tangent.toFixed(4)}.`}
+      </p>
+      <div className="table-wrap">
+        <table>
+          <caption>Numerical values corresponding to the plot</caption>
+          <thead>
+            <tr>
+              <th scope="col">x</th>
+              <th scope="col">h</th>
+              <th scope="col">f(x)</th>
+              <th scope="col">f(x+h)</th>
+              <th scope="col">Secant slope</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {[x, h, value(preset, x), value(preset, x + h), slope].map(
+                (v, i) => (
+                  <td key={i}>{v.toFixed(4)}</td>
+                ),
+              )}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Steps exclude zero. Minimum magnitude is 0.001. A numerical illustration
+        does not prove a limit.
+      </p>
+      <div className="actions">
+        <button
+          onClick={() => {
+            setPreset("square");
+            setX(1);
+            setMagnitude(0.5);
+            setSign(1);
+            setZoom(1);
+          }}
+        >
+          Reset experiment
+        </button>
+        <button
+          className="quiet"
+          onClick={() => setMagnitude(Math.max(0.001, magnitude / 2))}
+        >
+          Halve the step
+        </button>
+      </div>
+    </section>
+  );
+}

@@ -29,6 +29,15 @@ const common = {
   summary: z.string().min(10),
   authorId: z.literal("muhammad-huzaifa"),
   locale: z.enum(["en", "ur"]).default("en"),
+  curriculum: z
+    .array(
+      z.object({
+        board: z.string().min(1),
+        level: z.enum(levels),
+        syllabusYear: z.number().int().optional(),
+      }),
+    )
+    .default([]),
   status: z.enum(["draft", "in_review", "published", "archived"]),
   demo: z.boolean().default(false),
   subjects: z.array(z.enum(subjects)).min(1),

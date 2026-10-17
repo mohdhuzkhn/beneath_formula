@@ -13,10 +13,13 @@ export function parseContent(source: string, file = "fixture.mdx"): Article {
 export function validateGraph(items: Article[]) {
   const byId = new Map<string, Article>();
   const paths = new Set<string>();
+  const slugs = new Set<string>();
   for (const item of items) {
     if (byId.has(item.id)) throw new Error(`Duplicate ID: ${item.id}`);
     if (paths.has(route(item)))
       throw new Error(`Duplicate route: ${route(item)}`);
+    if (slugs.has(item.slug)) throw new Error(`Duplicate slug: ${item.slug}`);
+    slugs.add(item.slug);
     byId.set(item.id, item);
     paths.add(route(item));
   }

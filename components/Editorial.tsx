@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "./Link";
 export function Heading({
   eyebrow,
   title,
@@ -27,11 +27,15 @@ export function Breadcrumbs({
 }) {
   return (
     <nav className="breadcrumbs" aria-label="Breadcrumb">
-      <Link href="/">Home</Link>
+      <Link prefetch={false} href="/">
+        Home
+      </Link>
       <span aria-hidden="true">/</span>
       {section && href && (
         <>
-          <Link href={href}>{section}</Link>
+          <Link prefetch={false} href={href}>
+            {section}
+          </Link>
           <span aria-hidden="true">/</span>
         </>
       )}
@@ -43,7 +47,9 @@ export function Empty({ children }: { children: React.ReactNode }) {
   return (
     <div className="empty">
       <p>{children}</p>
-      <Link href="/explore">Explore available demonstrations →</Link>
+      <Link prefetch={false} href="/explore">
+        Explore available demonstrations →
+      </Link>
     </div>
   );
 }

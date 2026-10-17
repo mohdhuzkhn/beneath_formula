@@ -1,8 +1,6 @@
-"use client";
-import Link from "next/link";
-import { ThemeProvider, useTheme } from "next-themes";
-import { useState } from "react";
+import Link from "./Link";
 import { site } from "../lib/site";
+import { ThemeControls } from "./ThemeControls";
 export const navigation = [
   ["Explore", "/explore"],
   ["Learning paths", "/paths"],
@@ -11,24 +9,23 @@ export const navigation = [
   ["Inquiry", "/inquiry"],
   ["Lectures", "/lectures"],
 ] as const;
-function ThemeButton() {
-  const { resolvedTheme, setTheme } = useTheme();
+function Navigation({ mobile = false }: { mobile?: boolean }) {
   return (
-    <button
-      className="quiet"
-      aria-label="Toggle color theme"
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-    >
-      ◐ <span>Theme</span>
-    </button>
+    <nav className="navigation" aria-label="Main">
+      {navigation.map(([label, url]) => (
+        <Link key={url} href={url}>
+          {label}
+        </Link>
+      ))}
+      {mobile && <Link href="/search">Search</Link>}
+    </nav>
   );
 }
 export function Shell({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
   return (
-    <ThemeProvider attribute="data-theme">
+    <>
       <header className="masthead">
-        <Link className="brand" href="/" aria-label={`${site.name} home`}>
+        <Link className="brand" href="/">
           <span className="brand-mark" aria-hidden="true">
             ƒ
           </span>
@@ -39,27 +36,15 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </Link>
         <div className="header-tools">
           <Link href="/search">Search ↗</Link>
-          <ThemeButton />
-          <button
-            className="menu-toggle"
-            aria-expanded={open}
-            aria-controls="navigation"
-            onClick={() => setOpen(!open)}
-          >
-            Menu
-          </button>
+          <ThemeControls />
+          <details className="mobile-menu">
+            <summary>Menu</summary>
+            <Navigation mobile />
+          </details>
         </div>
-        <nav
-          id="navigation"
-          className={open ? "navigation open" : "navigation"}
-          aria-label="Main"
-        >
-          {navigation.map(([label, url]) => (
-            <Link key={url} href={url} onClick={() => setOpen(false)}>
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <div className="desktop-navigation">
+          <Navigation />
+        </div>
       </header>
       {children}
       <footer>
@@ -89,6 +74,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
           and awaits author editorial review.
         </p>
       </footer>
-    </ThemeProvider>
+    </>
   );
 }
