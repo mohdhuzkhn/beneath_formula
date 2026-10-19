@@ -30,4 +30,4 @@ Local browser tests use installed Chrome on Windows; CI installs Playwright Chro
 Read [Publishing](docs/editorial/PUBLISHING.md), [Deployment](docs/operations/DEPLOYMENT.md), [Operations](docs/operations/RUNBOOK.md), [Security](docs/operations/SECURITY.md), [Progress](docs/PROGRESS.md) and [Scope](docs/product/SCOPE.md). Supplied source documents are preserved in docs/reference; the supplied Master Plan identifies itself as v1.0 despite the request mentioning v1.1. Direct user authorization supersedes their phase-approval pauses.
 
 Public release needs a verified HTTPS canonical domain, professional contact, hosting setup/privacy details and author editorial/brand review. A real lecture needs an author-approved YouTube ID; no fake ID is published. A CV and credentials are optional and absent until supplied. P1–P3 work remains in the scope backlog.
-"# beneath_formula" 
+"# beneath_formula"

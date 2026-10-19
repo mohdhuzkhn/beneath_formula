@@ -13,4 +13,3 @@ UI: system fonts, Tailwind/PostCSS foundation with explicit design-token CSS, a 
 QA: Vitest, Testing Library/jsdom, Playwright with axe, Lighthouse. Browser installation hit ENOSPC on the host system drive, so local tests use installed Chrome; CI installs managed Chromium. Mobile and tablet runs emulate viewport/input, not real iOS/Safari devices.
 
 Security audit evidence: artifacts/dependency-audit.json. Report counts from an actual audit; do not infer vulnerability absence from a successful install alone.
-

@@ -1,0 +1,21 @@
+name: Deployed health
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * *"
+permissions:
+  contents: read
+jobs:
+  smoke:
+    if: vars.APP_URL != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run smoke
+        env:
+          TEST_BASE_URL: ${{ vars.APP_URL }}
