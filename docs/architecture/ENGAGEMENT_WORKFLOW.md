@@ -32,7 +32,7 @@ sequenceDiagram
   Next-->>Browser: Updated follower count
 ```
 
-The browser never connects directly to PostgreSQL. `DATABASE_URL` and `ENGAGEMENT_SECRET` remain server-only Vercel environment variables. Content remains Git-backed MDX; the database stores engagement aggregates only.
+The browser never connects directly to PostgreSQL. `DATABASE_URL` and `ENGAGEMENT_SECRET` remain server-only Vercel environment variables. Content remains Git-backed MDX; the database stores engagement aggregates only. On Supabase, Row Level Security is enabled and the `anon` and `authenticated` roles have no grants on the three engagement tables, so the Data API cannot expose them.
 
 ## Counting algorithm
 
@@ -71,6 +71,8 @@ This represents anonymous browser follows, not verified people or newsletter sub
 | `engagement_page_views`        | One aggregate counter per public path              |
 | `engagement_followers`         | A singleton aggregate follower counter             |
 | `engagement_follower_visitors` | HMAC hashes used only to prevent duplicate follows |
+
+All three tables enable Supabase Row Level Security and revoke every privilege from the browser-facing `anon` and `authenticated` roles. The Next.js server uses the server-only database connection instead of the Supabase Data API.
 
 ## Setup and release workflow
 
