@@ -2,6 +2,7 @@ import { HeroPlot } from "../components/HeroPlot";
 import Link from "../components/Link";
 import { published } from "../lib/content";
 import { Card } from "../components/Card";
+import { FollowButton } from "../components/Engagement";
 export default function Home() {
   const items = published();
   return (
@@ -92,6 +93,7 @@ export default function Home() {
           </Link>
         </div>
       </section>
+      <FollowButton />
       <section className="section">
         <div className="section-heading">
           <h2>Questions worth investigating</h2>

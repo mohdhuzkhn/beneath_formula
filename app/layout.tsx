@@ -3,6 +3,7 @@ import { safeJson } from "../lib/seo";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Shell } from "../components/Shell";
+import { EngagementTracker } from "../components/Engagement";
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: site.name,
@@ -27,6 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body>
+        <EngagementTracker />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

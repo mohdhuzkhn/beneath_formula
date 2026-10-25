@@ -251,8 +251,12 @@ export default async function Section({
           ) : section === "privacy" ? (
             <>
               <p>
-                No reader account, contact form, advertising or analytics is
-                active. Theme preference is stored locally in your browser.
+                This site does not use reader accounts, advertising, or
+                third-party analytics. When engagement storage is configured, it
+                records aggregate page-view totals and one anonymous follow
+                token per browser. It does not collect names, email addresses,
+                IP addresses, or browsing profiles. Theme preference is stored
+                locally in your browser.
               </p>
               <p>
                 A YouTube player loads only when you choose to load an approved

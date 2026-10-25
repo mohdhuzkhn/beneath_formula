@@ -38,13 +38,14 @@ There is no separate API service in version 1. The Next.js runtime and build pip
 2. Zod schemas validate metadata, publication state, prerequisites, citations, video identifiers, internal links, and mathematical relationships.
 3. Invalid, draft, unapproved, or broken records fail validation or remain excluded from public routes.
 4. Next.js renders public content into pages and exposes a small JSON search index plus `/health`.
-5. Security headers, redirects, robots rules, sitemap generation, metadata, and Open Graph images are applied at the web application layer.
+5. Optional engagement routes accept an allowlisted public route, record an aggregate view, and count one HMAC-hashed anonymous browser follow.
+6. Security headers, redirects, robots rules, sitemap generation, metadata, and Open Graph images are applied at the web application layer.
 
 This makes every public change reviewable in a pull request and traceable to a Git commit.
 
 ## Data storage
 
-Git is the versioned content database for version 1. MDX front matter stores structured metadata, while body content stores the teaching material. It is appropriate because the platform currently has no per-user state, private data, transactions, or editorial collaboration workflow.
+Git is the versioned content database for version 1. MDX front matter stores structured metadata, while body content stores the teaching material. Optional PostgreSQL engagement tables store only aggregate page counts and HMAC-hashed browser identifiers used to deduplicate follows; they do not store names, email addresses, or IP addresses.
 
 If future work adds accounts, saved progress, submissions, reactions, or a CMS, introduce PostgreSQL as a separate service. Recommended managed options are Vercel Postgres/Neon or Supabase Postgres. The Next.js server would then own database access through a typed repository layer; browser clients would call authenticated route handlers or server actions and would never use database credentials directly.
 
@@ -58,5 +59,5 @@ Production configuration requires an owner-controlled HTTPS site URL and contact
 
 - No credentials, private drafts, or user data belong in public MDX or browser code.
 - YouTube is not contacted until a reader grants consent and an approved video ID exists.
-- The application has no database backup burden today; GitHub history is the recovery source for content and code.
-- A future database requires encrypted backups, migration ownership, retention policy, access controls, and a recovery drill before holding user data.
+- GitHub history is the recovery source for content and code. When engagement storage is enabled, PostgreSQL backups and a recovery drill are required.
+- A future database holding user data requires encrypted backups, migration ownership, retention policy, access controls, and a recovery drill.

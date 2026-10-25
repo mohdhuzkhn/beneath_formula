@@ -14,6 +14,7 @@ import { site } from "../../../lib/site";
 import { Breadcrumbs, Heading } from "../../../components/Editorial";
 import { Mdx } from "../../../components/Mdx";
 import { CopyLink } from "../../../components/CopyLink";
+import { ViewCount } from "../../../components/Engagement";
 export const dynamicParams = false;
 export function generateStaticParams() {
   return published().map((i) => ({ section: sections[i.kind], slug: i.slug }));
@@ -72,6 +73,7 @@ export default async function Detail({
         {site.author} · {item.publishedAt} · {readingTime(item.body)} min
         estimated reading{item.updatedAt ? ` · Updated ${item.updatedAt}` : ""}
       </p>
+      <ViewCount path={route(item)} />
       <div>
         {[...item.levels, ...item.depths].map((t) => (
           <span className="chip" key={t}>
